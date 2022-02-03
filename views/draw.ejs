@@ -1,0 +1,39 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+	  <link rel="stylesheet" type="text/css" href="/draw_c.css">
+    <title><%= lan %></title>
+  </head>
+
+<body>
+  <div id="root" class="root">
+    <div id="icon-bar" class="icon-bar">
+      <a id="r_r">
+        R<br><input id="red" type="range" name="points" min="0" max="255" value="0" onchange="color_change()">
+      </a>
+      <a id="r_g" >
+        G<br><input id="green" type="range" name="points" min="0" max="255" value="0" onchange="color_change()">
+      </a>
+      <a id="r_b">
+        B<br><input id="blue" type="range" name="points" min="0" max="255" value="0" onchange="color_change()">
+      </a>
+      <a id="r_w">
+        W<br><input id="width" type="range" name="points" min="1" max="30" value="1" onchange="width_change()">
+      </a>
+    </div>
+    <div id="left_part" class="left_part">
+      <canvas id="canvas" class="canvas">
+        Sorry, your browser doesn't support the &lt;canvas&gt; element.
+      </canvas>
+    </div>
+    <div id="right_part" class="right_part">
+      <textarea disabled id="chat_content" class="chat_content">Leave a tone : </textarea><br>
+      <input id="text_input" class="text_input" autocomplete="off" />
+      <button type="button" id="btn_text" class="btn_text" onchange="send_text()">Send</button>
+    </div>
+  </div>
+  <script src="/draw.js"></script>
+</body>
+</html>
