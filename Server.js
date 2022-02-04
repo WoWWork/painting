@@ -8,7 +8,8 @@ const app = require('./socket').app;
 const server = require('./socket').server;
 const client = require('./socket').client;
 
-var time_l = new Date();
+var time_t_l = new Date();
+var time_c_l = new Date();
 
 app.set('view engine', 'ejs');
 
@@ -154,7 +155,7 @@ app.post('/db_read_t', (req, res) => {
   res.header("Content-Type", "application/json");
   let time_n = new Date();
   require('./admin').db_table_t.find({
-    createdAt: { $gt: time_n - (time_n - time_l) }
+    createdAt: { $gt: time_n - (time_n - time_t_l) }
   })
       .then((result) => {
         res.write(JSON.stringify(result));
@@ -243,16 +244,16 @@ app.post('/db_read_c', (req, res) => {
   res.header("Content-Type", "application/json");
   let time_n = new Date();
   require('./admin').db_table_c.find({
-    createdAt: { $gt: time_n - (time_n - time_l) }
+    createdAt: { $gt: time_n - (time_n - time_c_l) }
     })
       .then((result) => {
         res.write(JSON.stringify(result));
-        time_l = time_n;
+        time_c_l = time_n;
         res.end();
       })
       .catch((err) => {
         console.log(err);
-        time_l = time_n;
+        time_c_l = time_n;
       });
 });
 
