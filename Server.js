@@ -159,12 +159,12 @@ app.post('/db_read_t', (req, res) => {
   })
       .then((result) => {
         res.write(JSON.stringify(result));
-        time_l = time_n;
+        time_t_l = time_n;
         res.end();
       })
       .catch((err) => {
         console.log(err);
-        time_l = time_n;
+        time_t_l = time_n;
       });
 });
 
