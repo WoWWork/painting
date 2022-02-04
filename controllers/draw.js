@@ -295,18 +295,20 @@ const send_data_db = () => {
   /* draw on canvas */
 
 const drawing = (data) => {
-  let px = data[0].data_x.split(',');
-  let py = data[0].data_y.split(',');
   ctx.beginPath();
-  ctx.lineWidth = data[0].data_w;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
-  ctx.strokeStyle = "rgb("+ data[0].data_c[0] + "," + data[0].data_c[1] + "," + data[0].data_c[2] + ")";
-  for(let i = 0; i < px.length - 1; i++)
+  for(let j = 0; j < data.length; j++)
   {
-    ctx.moveTo(px[i] * canvas.clientWidth, py[i] * canvas.clientHeight);
-    ctx.lineTo(px[i + 1] * canvas.clientWidth, py[i + 1] * canvas.clientHeight);
-    
+    let px = data[j].data_x.split(',');
+    let py = data[j].data_y.split(',');
+    ctx.lineWidth = data[j].data_w;
+    ctx.strokeStyle = "rgb("+ data[j].data_c[0] + "," + data[j].data_c[1] + "," + data[j].data_c[2] + ")";
+    for(let i = 0; i < px.length - 1; i++)
+    {
+      ctx.moveTo(px[i] * canvas.clientWidth, py[i] * canvas.clientHeight);
+      ctx.lineTo(px[i + 1] * canvas.clientWidth, py[i + 1] * canvas.clientHeight);
+    }
   }
   ctx.stroke();
   ctx.closePath();
@@ -316,20 +318,16 @@ const drawing = (data) => {
 
 const display_text = (data) => {
   //console.log('display : ' + data[0].message);
-  document.getElementById("chat_content").value += "\r\n" + data[0].message;
+  for(let i = 0; i < data.length; i++)
+  {
+    document.getElementById("chat_content").value += "\r\n" + data[i].message;
+  }
   document.getElementById("text_input").value = "";
-};
-
-  /* get current time */
-
-const time_refresh = async () => {
-  let date_time = new Date();
 };
 
   /* update event collection */
 
 const update_set = async () => {
-  //await setInterval("time_refresh()", 1000);
   //await setInterval("get_text(document.title)", 1000);
   await setInterval("read_text_db(document.title)", 1000);
   //await setInterval("get_data(document.title)", 1000);

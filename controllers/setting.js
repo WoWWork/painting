@@ -93,7 +93,6 @@ function local_info(state)
     else if(state == 'client') window.location.href = '/join';
 	  else console.log(xhr.status);
   }};
-  //var data = '{"login":"my_login","password":"my_password"}';
   xhr.send(); 
 }
 
