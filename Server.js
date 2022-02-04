@@ -8,6 +8,8 @@ const app = require('./socket').app;
 const server = require('./socket').server;
 const client = require('./socket').client;
 
+var time_l = new Date();
+
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
@@ -150,15 +152,18 @@ app.post('/db_write_t', (req, res) => {
 
 app.post('/db_read_t', (req, res) => {
   res.header("Content-Type", "application/json");
+  let time_n = new Date();
   require('./admin').db_table_t.find({
-    createdAt: { $gt: new Date() - 2000 }
+    createdAt: { $gt: time_n - (time_n - time_l) }
   })
       .then((result) => {
         res.write(JSON.stringify(result));
+        time_l = time_n;
         res.end();
       })
       .catch((err) => {
         console.log(err);
+        time_l = time_n;
       });
 });
 
@@ -236,15 +241,18 @@ app.post('/db_write_c',(req, res) => {
   
 app.post('/db_read_c', (req, res) => {
   res.header("Content-Type", "application/json");
+  let time_n = new Date();
   require('./admin').db_table_c.find({
-    createdAt: { $gt: new Date() - 2000 }
+    createdAt: { $gt: time_n - (time_n - time_l) }
     })
       .then((result) => {
         res.write(JSON.stringify(result));
+        time_l = time_n;
         res.end();
       })
       .catch((err) => {
         console.log(err);
+        time_l = time_n;
       });
 });
 
