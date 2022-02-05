@@ -50,14 +50,6 @@ app.get('/draw', (req, res) => {
   res.render('draw', { lan: require('./admin').self.lan });
 });
 
-  /* get self screen width & height */
-
-app.post('/frame', (req, res) => {
-  require('./admin').view_w = req.body.view_w;    //get req.query.view_w
-  require('./admin').view_h = req.body.view_h;    //get req.query.view_h
-  res.end();
-});
-
   /* join platform */
 
 app.get('/join', (req, res) => {
@@ -139,7 +131,7 @@ app.post('/g_data', (req, res) => {
 
 app.post('/db_write_t', (req, res) => {
   const text = new require('./admin').db_table_t({
-    message: req.body.message
+    message: req.body.message    //get req.query.message
   });
   text.save()
       .then((result) => {
@@ -155,7 +147,7 @@ app.post('/db_read_t', (req, res) => {
   res.header("Content-Type", "application/json");
   let time_n = new Date();
   require('./admin').db_table_t.find({
-    createdAt: { $gt: time_n - (time_n - time_t_l) }
+    createdAt: { $gt: time_t_l }
   })
       .then((result) => {
         res.write(JSON.stringify(result));
@@ -164,21 +156,12 @@ app.post('/db_read_t', (req, res) => {
       })
       .catch((err) => {
         console.log(err);
-        time_t_l = time_n;
       });
 });
 
   /* send coordinate data through LAN */
 
 app.post('/s_data', (req, res) => {
-  let px = req.body.data_x.split(',');
-  let py = req.body.data_y.split(',');
-  if(px.length <= 1) return;
-  for(let n = 0; n < px.length; n++)
-  {
-    px[n] = px[n] / require('./admin').view_w;
-    py[n] = py[n] / require('./admin').view_h;
-  }
   for(let i = 0; i < require('./admin').users.length; i++)
   {
     //if(require('./admin').self.lan != require('./admin').users[i].lan)
@@ -189,8 +172,8 @@ app.post('/s_data', (req, res) => {
         //console.log(info);
       });
       require('./socket')._socket.emit('send_data', {
-        data_x: px.join(','), 
-        data_y: py.join(','),
+        data_x: req.body.data_x, 
+        data_y: req.body.data_y,
         data_w: req.body.data_w,
         data_c: req.body.data_c
       });
@@ -214,17 +197,9 @@ app.post('/s_data', (req, res) => {
   /* send coordinate data to DB */
   
 app.post('/db_write_c',(req, res) => {
-  let px = req.body.data_x.split(',');
-  let py = req.body.data_y.split(',');
-  if(px.length <= 1) return;
-  for(let n = 0; n < px.length; n++)
-  {
-    px[n] = px[n] / require('./admin').view_w;
-    py[n] = py[n] / require('./admin').view_h;
-  }
   const data = new require('./admin').db_table_c({
-    data_x: px.join(','),
-    data_y: py.join(','),
+    data_x: req.body.data_x,
+    data_y: req.body.data_y,
     data_w: req.body.data_w,
     data_c: req.body.data_c
   });
@@ -244,7 +219,7 @@ app.post('/db_read_c', (req, res) => {
   res.header("Content-Type", "application/json");
   let time_n = new Date();
   require('./admin').db_table_c.find({
-    createdAt: { $gt: time_n - (time_n - time_c_l) }
+    createdAt: { $gt: time_c_l }
     })
       .then((result) => {
         res.write(JSON.stringify(result));
@@ -253,7 +228,6 @@ app.post('/db_read_c', (req, res) => {
       })
       .catch((err) => {
         console.log(err);
-        time_c_l = time_n;
       });
 });
 

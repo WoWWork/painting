@@ -29,16 +29,6 @@ const init = () => {
     canvas.setAttribute("width", view_w);
     canvas.setAttribute("height", view_h * 0.7 - gap_y);
   }
-  let url = '/frame'
-  let xhr = new XMLHttpRequest()
-  xhr.open("POST", url, true)
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status == 200) {
-      console.log('done')
-    }
-  }
-  xhr.send('view_w=' + canvas.clientWidth + '&view_h=' + canvas.clientHeight)
 }
 
   /* start coordination */
@@ -219,6 +209,7 @@ const send_text_db = () => {
   /* sending data through LAN */
 
 const send_data = () => {
+  data_percentage();
   let url = '/s_data';
   let xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -243,11 +234,13 @@ const get_data = async (data) => {
   xhr.open("POST", url);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-      console.log(xhr.responseText);
+      //console.log(xhr.responseText);
       let data_list = JSON.parse(xhr.responseText);
-      if(data_list.data_x.length != 0 && data_list.data_y.length != 0){
+      if(data_list.length != 0){
         console.log(data_list);
         drawing(data_list);
+        width_change();
+        color_change();
       }
     }
   }
@@ -262,11 +255,13 @@ const read_data_db = async (data) => {
   xhr.open("POST", url);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-      console.log(xhr.responseText);
+      //console.log(xhr.responseText);
       let data_list = JSON.parse(xhr.responseText);
-      if(data_list[0].data_x.length != 0 && data_list[0].data_y.length != 0){
-        console.log(data_list)
+      if(data_list.length != 0){
+        console.log(data_list);
         drawing(data_list);
+        width_change();
+        color_change();
       }
     }
   };
@@ -276,6 +271,7 @@ const read_data_db = async (data) => {
   /* sending coordinate data to MongoDB */
   
 const send_data_db = () => {
+  data_percentage();
   let url = '/db_write_c';
   let xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
@@ -292,6 +288,14 @@ const send_data_db = () => {
   xhr.send('data_x=' + data_x + '&data_y=' + data_y + '&data_w=' + data_w + '&data_c=' + data_c);
 }
 
+const data_percentage = () => {
+  for(let i = 0; i < data_x.length; i++)
+  {
+    data_x[i] = data_x[i] / canvas.clientWidth;
+    data_y[i] = data_y[i] / canvas.clientHeight;
+  }
+}
+
   /* draw on canvas */
 
 const drawing = (data) => {
@@ -303,7 +307,7 @@ const drawing = (data) => {
     let px = data[j].data_x.split(',');
     let py = data[j].data_y.split(',');
     ctx.lineWidth = data[j].data_w;
-    ctx.strokeStyle = "rgb("+ data[j].data_c[0] + "," + data[j].data_c[1] + "," + data[j].data_c[2] + ")";
+    ctx.strokeStyle = "rgb(" + data[j].data_c + ")";
     for(let i = 0; i < px.length - 1; i++)
     {
       ctx.moveTo(px[i] * canvas.clientWidth, py[i] * canvas.clientHeight);
@@ -312,9 +316,9 @@ const drawing = (data) => {
   }
   ctx.stroke();
   ctx.closePath();
-  width_change();
-  color_change();
 };
+
+  /* disply text on textarea */
 
 const display_text = (data) => {
   //console.log('display : ' + data[0].message);
