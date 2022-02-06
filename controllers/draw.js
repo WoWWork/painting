@@ -8,6 +8,9 @@ const t_btn = document.getElementById('btn_text')
 
 const ctx = canvas.getContext('2d')
 
+var time_c_l;
+var time_t_l;
+
 let data_x = new Array();
 let data_y = new Array();
 let data_w = 1;
@@ -136,7 +139,7 @@ const color_change = () => {
   let g = r_green.value
   let b = r_blue.value
   data_c = [r, g, b]
-  ctx.strokeStyle = "rgb("+ r +"," + g + "," + b + ")";
+  ctx.strokeStyle = "rgb("+ r + "," + g + "," + b + ")";
 }
 
   /* get text data through LAN */
@@ -150,10 +153,11 @@ const get_text = async (data) => {
       console.log(xhr.responseText);
       let data_list = JSON.parse(xhr.responseText);
       if(data_list.message.length != 0){
-        display_text(data_list)
+        display_text(data_list);
       }
     }
-  }
+  };
+  xhr.send();
 }
 
   /* read text from MongoDB */
@@ -163,7 +167,7 @@ const read_text_db = async (data) => {
   let xhr = new XMLHttpRequest();
   xhr.open("POST", url);
   xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
+    if (xhr.readyState === 4 && xhr.status == 200) {
       console.log(xhr.responseText);
       let data_list = JSON.parse(xhr.responseText);
       if(data_list.length != 0){
@@ -254,7 +258,7 @@ const read_data_db = async (data) => {
   let xhr = new XMLHttpRequest();
   xhr.open("POST", url);
   xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
+    if (xhr.readyState === 4 && xhr.status == 200) {
       //console.log(xhr.responseText);
       let data_list = JSON.parse(xhr.responseText);
       if(data_list.length != 0){
@@ -267,7 +271,7 @@ const read_data_db = async (data) => {
   };
   xhr.send();
 };
-  
+
   /* sending coordinate data to MongoDB */
   
 const send_data_db = () => {
@@ -328,6 +332,21 @@ const display_text = (data) => {
   }
   document.getElementById("text_input").value = "";
 };
+
+const get_time = (time) => {
+  let url = '/g_time';
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      //console.log(xhr.responseText);
+      let data_list = JSON.parse(xhr.responseText);
+      if(time === 'time_c') time_c_l = data_list.time;
+      else time_t_l = data_list.time;
+    }
+  }
+  xhr.send();
+}
 
   /* update event collection */
 
