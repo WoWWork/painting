@@ -212,7 +212,6 @@ app.post('/db_write_c',(req, res) => {
   
 app.post('/db_read_c', (req, res) => {
   res.header("Content-Type", "application/json");
-  console.log(req.body.time_c_l)
   require('./admin').db_table_c.find({
     createdAt: { $gt: new Date() - 1000 }
     })
