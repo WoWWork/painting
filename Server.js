@@ -136,7 +136,7 @@ app.post('/db_write_t', (req, res) => {
         res.end();
       })
       .catch((err) => {
-        setInterval(console.log(err), 500);
+        setTimeout(console.log(err), 500);
       })
 });
 
@@ -150,7 +150,7 @@ app.post('/db_read_t', (req, res) => {
         res.end();
       })
       .catch((err) => {
-        setInterval(console.log(err), 500);
+        setTimeout(console.log(err), 500);
       });
 });
 
@@ -204,7 +204,7 @@ app.post('/db_write_c',(req, res) => {
       res.end();
     })
     .catch((err) => {
-      setInterval(console.log(err), 500);
+      setTimeout(console.log(err), 500);
     });
 });
   
@@ -220,7 +220,7 @@ app.post('/db_read_c', (req, res) => {
         res.end();
       })
       .catch((err) => {
-        setInterval(console.log(err), 500);
+        setTimeout(console.log(err), 500);
       });
 });
 
