@@ -58,7 +58,7 @@ app.get('/join', (req, res) => {
   require('./admin').self = output;
   let lan = require('./socket').lan_info();
   require('./admin').self['lan'] = lan.eth0[0];
-  console.log(require('./admin').self);
+  //console.log(require('./admin').self);
   require('./socket')._socket = require('./socket')._io('http://' + require('./admin').self.connect + ':3000');
   require('./socket')._socket.on('login', (info) => { 
     //console.log(info);
@@ -136,7 +136,7 @@ app.post('/db_write_t', (req, res) => {
         res.end();
       })
       .catch((err) => {
-        console.log(err);
+        setInterval(console.log(err), 500);
       })
 });
 
@@ -150,7 +150,7 @@ app.post('/db_read_t', (req, res) => {
         res.end();
       })
       .catch((err) => {
-        console.log(err);
+        setInterval(console.log(err), 500);
       });
 });
 
@@ -204,7 +204,7 @@ app.post('/db_write_c',(req, res) => {
       res.end();
     })
     .catch((err) => {
-      console.log(err);
+      setInterval(console.log(err), 500);
     });
 });
   
@@ -220,7 +220,7 @@ app.post('/db_read_c', (req, res) => {
         res.end();
       })
       .catch((err) => {
-        console.log(err);
+        setInterval(console.log(err), 500);
       });
 });
 
