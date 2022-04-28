@@ -91,7 +91,7 @@ function local_info(state)
     });
     if(state == 'host') window.location.href = '/draw'
     else if(state == 'client') window.location.href = '/join';
-	  else console.log(xhr.status);
+    else setTimeout(console.log(xhr.status), 500);
   }};
   xhr.send(); 
 }
@@ -107,7 +107,7 @@ function connect(ip, name)
   let regx = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
   if(regx.test(ip)) {
 	  setCookie('user', name);
-    setCookie('state', 'client');
+          setCookie('state', 'client');
 	  setCookie('connect', ip);
 	  local_info('client');
 	}
@@ -135,5 +135,5 @@ function setCookie(name, value)
   let expires = "expires=" + d.toUTCString();
   document.cookie = `${name}=${value};${expires};path=/`;
   let Enabled = document.cookie.indexOf(name+"=") != -1;
-  if(!Enabled) console.log('cookie not setting!');
+  if(!Enabled) setTimeout(console.log('cookie not setting!'), 500);
 }
