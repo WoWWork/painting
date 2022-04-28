@@ -8,11 +8,11 @@ const _io = require('socket.io-client');
 var _socket;
 
 io.on('connection', (socket) => {
-  //console.log(socket);
+  //setTimeout(console.log(socket), 500);
   socket.emit('login', 'login success!');
   
   socket.on('send_data', (list) => {
-    console.log(list);
+    setTimeout(console.log(list), 500);
     require('./admin').data_x = [];
     require('./admin').data_y = [];
     require('./admin').data_w = 0;
@@ -25,13 +25,13 @@ io.on('connection', (socket) => {
   });
   
   socket.on('send_text', (text) => {
-    console.log(text)
+    setTimeout(console.log(text), 500)
     require('./admin').list_text.push(text);
     socket.disconnect();
   });
 
   socket.on('player_info', (data) => {
-    console.log(data);
+    setTimeout(console.log(data), 500);
     require('./admin').users.push(data);
     socket.disconnect();
   });
