@@ -150,7 +150,7 @@ const get_text = async (data) => {
   xhr.open("POST", url);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-      console.log(xhr.responseText);
+      setTimeout(console.log(xhr.responseText), 500);
       let data_list = JSON.parse(xhr.responseText);
       if(data_list.message.length != 0){
         display_text(data_list);
@@ -168,7 +168,7 @@ const read_text_db = async (data) => {
   xhr.open("POST", url);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status == 200) {
-      console.log(xhr.responseText);
+      setTimeout(console.log(xhr.responseText), 500);
       let data_list = JSON.parse(xhr.responseText);
       if(data_list.length != 0){
         display_text(data_list);
@@ -188,7 +188,7 @@ const send_text = () => {
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status == 200) {
-      console.log('done');
+      setTimeout(console.log('done'), 500);
     }
   }
   xhr.send('message=' + message);
@@ -204,7 +204,7 @@ const send_text_db = () => {
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status == 200) {
-      console.log('done');
+      setTimeout(console.log('done'), 500);
     }
   }
   xhr.send('message=' + message);
@@ -220,7 +220,7 @@ const send_data = () => {
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status == 200) {
-      console.log('done!!');
+      setTimeout(console.log('done!!'), 500);
       data_x=[];
       data_y=[];
       data_w=[];
@@ -238,10 +238,10 @@ const get_data = async (data) => {
   xhr.open("POST", url);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-      //console.log(xhr.responseText);
+      //setTimeout(console.log(xhr.responseText));
       let data_list = JSON.parse(xhr.responseText);
       if(data_list.length != 0){
-        console.log(data_list);
+        setTimeout(console.log(data_list), 500);
         drawing(data_list);
         width_change();
         color_change();
@@ -259,10 +259,10 @@ const read_data_db = async (data) => {
   xhr.open("POST", url);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status == 200) {
-      //console.log(xhr.responseText);
+      //setTimeout(console.log(xhr.responseText), 500);
       let data_list = JSON.parse(xhr.responseText);
       if(data_list.length != 0){
-        console.log(data_list);
+        setTimeout(console.log(data_list), 500);
         drawing(data_list);
         width_change();
         color_change();
@@ -282,7 +282,7 @@ const send_data_db = () => {
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status == 200) {
-      console.log('send_data_db : done!!');
+      setTimeout(console.log('send_data_db : done!!'), 500);
       data_x=[];
       data_y=[];
       data_w=[];
@@ -339,7 +339,7 @@ const get_time = (time) => {
   xhr.open("POST", url, true);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-      //console.log(xhr.responseText);
+      //setTimeout(console.log(xhr.responseText), 500);
       let data_list = JSON.parse(xhr.responseText);
       if(time === 'time_c') time_c_l = data_list.time;
       else time_t_l = data_list.time;
